@@ -27,8 +27,9 @@ public class ParkingLotController {
     public ResponseEntity deleteParkLot(@PathVariable long id){
         return parkingLotService.deleteParkLot(id);
     }
-    @GetMapping()
-    public ResponseEntity getParkingLots(){
-        return parkingLotService.getParkingLots();
+    @GetMapping(params = {"page","pagesize"})
+    public ResponseEntity getParkingLotsWithPage(@RequestParam(required = false)int page,
+                                         @RequestParam(required = false)int pagesize){
+        return parkingLotService.getParkingLotsWithPage(page,pagesize);
     }
 }

@@ -2,6 +2,7 @@ package com.thoughtworks.parking_lot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.parking_lot.domain.ParkingLot;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -38,7 +39,7 @@ public class ParkingLotTest {
     @Test
     public void should_delete_a_parkinglot_when_delete_a_new_parkinglot()throws Exception{
         //given
-        ParkingLot parkingLot = new ParkingLot("parkingLot1",10,"NanRuan");
+        ParkingLot parkingLot = new ParkingLot("parkingLot2",10,"NanRuan");
         MvcResult mvcResult = this.mockMvc.perform(post("/parkinglots") .content(new ObjectMapper().writeValueAsString(parkingLot))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -47,6 +48,26 @@ public class ParkingLotTest {
         this.mockMvc.perform(delete("/parkinglots/"+jsonObject.getInt("id"))).andExpect(status().isOk());
 
 
+    }
+    @Test
+    public void should_get_parkinglots_when_give_a_size_page_and_pagesize()throws Exception{
+        //given
+        ParkingLot parkingLot = new ParkingLot("parkingLot3",10,"NanRuan");
+        this.mockMvc.perform(post("/parkinglots") .content(new ObjectMapper().writeValueAsString(parkingLot))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        ParkingLot parkingLot1 = new ParkingLot("parkingLot4",10,"NanRuan");
+        this.mockMvc.perform(post("/parkinglots") .content(new ObjectMapper().writeValueAsString(parkingLot1))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+
+        MvcResult mvcResult = this.mockMvc.perform(get("/parkinglots?page=1&pagesize=15")).andExpect(status().isOk()).andReturn();
+        JSONObject jsonObject = new JSONObject(mvcResult.getResponse().getContentAsString());
+        assertEquals(1, jsonObject.getInt("page"));
+        assertEquals(15, jsonObject.getInt("pagesize"));
+        //assertEquals(2, jsonObject.getJSONArray("parkingLots").length());
     }
 //    @Test
 //    public void should_return_exception_when_post_two_parkinglot_have_save_name()throws Exception{
