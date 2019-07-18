@@ -69,6 +69,22 @@ public class ParkingLotTest {
         assertEquals(15, jsonObject.getInt("pagesize"));
         //assertEquals(2, jsonObject.getJSONArray("parkingLots").length());
     }
+    @Test
+    public void should_get_a_parkinglot_when_give_a_id()throws Exception{
+        //given
+        ParkingLot parkingLot = new ParkingLot("parkingLot5",10,"NanRuan");
+        MvcResult mvcResult = this.mockMvc.perform(post("/parkinglots") .content(new ObjectMapper().writeValueAsString(parkingLot))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        JSONObject jsonObject1 = new JSONObject(mvcResult.getResponse().getContentAsString());
+        mvcResult = this.mockMvc.perform(get("/parkinglots/"+jsonObject1.getInt("id"))).andExpect(status().isOk()).andReturn();
+        JSONObject jsonObject = new JSONObject(mvcResult.getResponse().getContentAsString());
+        assertEquals(parkingLot.getName(), jsonObject.getString("name"));
+        assertEquals(parkingLot.getCapacity(), jsonObject.getInt("capacity"));
+        assertEquals(parkingLot.getLocaltion(), jsonObject.getString("localtion"));
+        //assertEquals(2, jsonObject.getJSONArray("parkingLots").length());
+    }
 //    @Test
 //    public void should_return_exception_when_post_two_parkinglot_have_save_name()throws Exception{
 //        //given

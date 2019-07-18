@@ -42,4 +42,8 @@ public class ParkingLotService {
         jsonpObject.put("parkingLots",parkingLotList.stream().skip((page-1)*pagesize).limit(pagesize).collect(Collectors.toList()));
         return ResponseEntity.ok(jsonpObject);
 }
+
+    public ResponseEntity getParkingLotById(long id) {
+        return ResponseEntity.ok(parkingLotRepository.findById(id));
+    }
 }

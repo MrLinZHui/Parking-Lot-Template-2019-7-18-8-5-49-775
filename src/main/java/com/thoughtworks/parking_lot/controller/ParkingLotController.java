@@ -32,4 +32,8 @@ public class ParkingLotController {
                                          @RequestParam(required = false)int pagesize){
         return parkingLotService.getParkingLotsWithPage(page,pagesize);
     }
+    @GetMapping(path = "/{id}")
+    public ResponseEntity getParkingLotById(@PathVariable long id){
+        return parkingLotService.getParkingLotById(id);
+    }
 }
