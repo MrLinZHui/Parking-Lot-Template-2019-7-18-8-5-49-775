@@ -46,4 +46,15 @@ public class ParkingLotService {
     public ResponseEntity getParkingLotById(long id) {
         return ResponseEntity.ok(parkingLotRepository.findById(id));
     }
+
+    public ResponseEntity updateParkingLotWithCapacity(long id,ParkingLot parkingLot) {
+        int isUpdate = parkingLotRepository.updateCapacityById(id,parkingLot.getCapacity());
+        JSONObject object =new JSONObject();
+        if(isUpdate==1){
+            object.put("success",1);
+        }else{
+            object.put("error",0);
+        }
+        return ResponseEntity.ok(object);
+    }
 }

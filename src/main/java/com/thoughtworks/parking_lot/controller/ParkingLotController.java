@@ -36,4 +36,8 @@ public class ParkingLotController {
     public ResponseEntity getParkingLotById(@PathVariable long id){
         return parkingLotService.getParkingLotById(id);
     }
+    @PutMapping(path = "/{id}")
+    public ResponseEntity updateParkingLotWithCapacity(@PathVariable long id,@RequestBody ParkingLot parkingLot){
+        return parkingLotService.updateParkingLotWithCapacity(id,parkingLot);
+    }
 }

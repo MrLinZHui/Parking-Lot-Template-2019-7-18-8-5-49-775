@@ -85,6 +85,24 @@ public class ParkingLotTest {
         assertEquals(parkingLot.getLocaltion(), jsonObject.getString("localtion"));
         //assertEquals(2, jsonObject.getJSONArray("parkingLots").length());
     }
+    @Test
+    public void should_get_a_update_parkinglot_when_give_update_a_parkingLot()throws Exception{
+        //given
+        ParkingLot parkingLot = new ParkingLot("parkingLot6",10,"NanRuan");
+        MvcResult mvcResult = this.mockMvc.perform(post("/parkinglots").content(new ObjectMapper().writeValueAsString(parkingLot))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        JSONObject jsonObject1 = new JSONObject(mvcResult.getResponse().getContentAsString());
+        ParkingLot parkingLot1 = new ParkingLot("parkingLot6",25,"NanRuan");
+        System.out.println("======="+jsonObject1.getInt("id"));
+        mvcResult =this.mockMvc.perform(put("/parkinglots/"+jsonObject1.getInt("id")).content(new ObjectMapper().writeValueAsString(parkingLot1))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        JSONObject jsonObject = new JSONObject(mvcResult.getResponse().getContentAsString());
+        assertEquals(1, jsonObject.getInt("success"));
+    }
 //    @Test
 //    public void should_return_exception_when_post_two_parkinglot_have_save_name()throws Exception{
 //        //given
