@@ -17,7 +17,11 @@ public class ParkingOrderController {
 
     @PostMapping(path = "/{lotid}")
     public ResponseEntity addCar(@PathVariable long lotid,@RequestParam(required = false) String carNum){
-        System.out.println("========================================");
         return parkingOrderService.addCar(lotid,carNum);
+    }
+    @GetMapping()
+    public ResponseEntity deleteCar(@RequestParam String carNum){
+
+        return parkingOrderService.puteCar(carNum);
     }
 }
