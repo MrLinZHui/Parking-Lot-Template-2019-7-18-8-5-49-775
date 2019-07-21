@@ -4,6 +4,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @DynamicInsert(true)
@@ -62,4 +63,6 @@ public class ParkingLot implements Serializable {
     public void setLocaltion(String localtion) {
         this.localtion = localtion;
     }
+
+
 }
