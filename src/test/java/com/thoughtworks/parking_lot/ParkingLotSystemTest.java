@@ -64,8 +64,6 @@ public class ParkingLotSystemTest {
         JSONObject jsonObject = new JSONObject(mvcResult.getResponse().getContentAsString());
         //then
         assertEquals("the capcity is full", jsonObject.getString("Massage"));
-        //assertEquals(parkingLot.getLocaltion(), jsonObject.getString("localtion"));
-
     }
 
 }
